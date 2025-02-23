@@ -1,4 +1,4 @@
-<h1>DUGA Coder Pack (DugaCP)</h1><br>
+<h1>DUGA Coder Pack (DugaCP)</h1>
 <h2>Advanced modloader for <a href="https://github.com/MaxwellSalmon/DUGA">DUGA raycaster</a></h2><br>
 Modloader based on runtime-patching, so only use mods you trust<br>
 Inspired by coolmanthedev's modloader, which was static and cannot patch code of the game<br>
@@ -12,6 +12,6 @@ Our realisation of DUGA's API is not excellent and not full, so you cant do some
 </ul>
 <h1>How to make mods?</h1>
 Read in <a href="">DugaCP's Documentation (hadnt written it lol)</a><br>
-<h1>Liked our work?</h1><br>
+<h1>Liked our work?</h1>
 You can report bugs, create & share your mods or do contribution to DugaCP's code!<br>
 <h1>And ✨SPECIAL✨ thanks to <a href="https://github.com/MaxwellSalmon">MaxwellSalmon</a> (DUGA's Author) for creating this excellent game!</h1>
