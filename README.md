@@ -28,5 +28,5 @@ You can report bugs, create & share your mods or do contribution to DugaCP's cod
 | Text Modifying                             | ❌           | ✅           |
 | Font Changing                              | ⌛(WIP)       | ✅           |
 | NPC Add                                    | ❌           | ✅           |
-| NPC Remove                                 | ❌           | ✅           |
+| NPC Remove                                 | ❌           | ❌           |
 | ✨EXTRA✨ Features                        | ✅           | ❌           |
