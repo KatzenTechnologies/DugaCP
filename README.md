@@ -4,7 +4,7 @@
 Inspired by coolmanthedev's modloader, which was static and cannot patch code of the game<br>
 Its still in beta-test, so except bugs and report them to us!<br></p>
 <h1>Using DugaAPI</h1>
-<p  align="center">Font patching is throughAPI <strong>STRONGLY UNRECOMMENDED</strong>, because not all parts using font patched to use API's data!<br>
+<p  align="center">Font patching through API is <strong>STRONGLY UNRECOMMENDED</strong>, because not all parts using font patched to use API's data!<br>
 Our realisation of DUGA's API is not excellent and not full, so you cant do some things with your mod, but you have 2 choices:<br></p>
 <ul>
   <li align="center">You can make realisation for it and make contribution to project! (<strong>GOOD WAY</strong>)</li>
