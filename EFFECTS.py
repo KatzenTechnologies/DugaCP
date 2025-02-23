@@ -4,9 +4,6 @@ import ITEMS
 import TEXT
 import random
 
-title = TEXT.Text(0,0, "None :-)", SETTINGS.BLACK, "DUGAFONT.ttf", 60)
-author = TEXT.Text(0,0, "None :-)", SETTINGS.BLACK, "DUGAFONT.ttf", 40)
-
 hurt_intensity = 128
 dead_intensity = 0
 heal_intensity = 85
@@ -36,6 +33,17 @@ int_to_string = {
     18 : 'NINETEENTH',
     19 : 'TWENTIETH',
     }
+
+def init_dugacp_api(game_api):
+    """Функция заглушка, нужна для возможности патчинга всего функционала игры"""
+    global dugacp_api
+    dugacp_api = game_api
+
+    global title
+    title = TEXT.Text(0, 0, "None :-)", SETTINGS.BLACK, dugacp_api.get_font(), 60)
+    global author
+    author = TEXT.Text(0, 0, "None :-)", SETTINGS.BLACK, dugacp_api.get_font(), 40)
+
 
 def render(canvas):
     if SETTINGS.screen_shake > 0:

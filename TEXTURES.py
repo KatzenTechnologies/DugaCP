@@ -1,46 +1,54 @@
 #Textures for tiles: Walls and sprites.
 import os
 
-#RYD OP I DEN HER TIL SIDST
-all_textures = [
-    os.path.join('graphics', 'tiles', 'null.png'), #Air #0
+all_textures = []
 
-    #-- Wood theme --
-    # Walls
-    os.path.join('graphics', 'tiles', 'walls', 'wood_wall.png'), #1
-    os.path.join('graphics', 'tiles', 'walls', 'wood_painting.png'), #2
-    os.path.join('graphics', 'tiles', 'walls', 'wood_fireplace.png'), #3
-    os.path.join('graphics', 'tiles', 'walls', 'wood_books.png'), #4
-    os.path.join('graphics', 'tiles', 'walls', 'wood_end.png'), #5
-    # Doors
-    os.path.join('graphics', 'tiles', 'walls', 'wood_door.png'), #6
-    os.path.join('graphics', 'tiles', 'walls', 'wood_door.png'), #7
-    # Sprites
-    os.path.join('graphics', 'tiles', 'sprites', 'pillar.png'), #8
-    os.path.join('graphics', 'tiles', 'sprites', 'table.png'), #9
-    os.path.join('graphics', 'tiles', 'sprites', 'lysekrone.png'), #10
+def init_dugacp_api(game_api):
+    global all_textures
+    all_textures = [
+        game_api.paths["null"], #Air #0
 
-    #-- Stone theme --
-    # Walls
-    os.path.join('graphics', 'tiles', 'walls', 'stone_wall.png'), #11
-    os.path.join('graphics', 'tiles', 'walls', 'stone_vent.png'), #12
-    os.path.join('graphics', 'tiles', 'walls', 'stone_wall_crack.png'), #13
-    os.path.join('graphics', 'tiles', 'walls', 'stone_vase.png'), #14
-    os.path.join('graphics', 'tiles', 'walls', 'stone_end.png'), #15
-    # Sprites
-    os.path.join('graphics', 'tiles', 'sprites', 'lysestage.png'), #16
-    os.path.join('graphics', 'tiles', 'sprites', 'barrel.png'), #17
-    os.path.join('graphics', 'tiles', 'sprites', 'stone_pillar.png'), #18
+        #-- Wood theme --
+        # Walls
+        game_api.paths["wood_wall"],  #1
+        game_api.paths["wood_painting"],  #2
+        game_api.paths["wood_fireplace"],  #3
+        game_api.paths["wood_books"],  #4
+        game_api.paths["wood_end"],  #5
 
-    #-- Baroque theme --
-    # Walls
-    os.path.join('graphics', 'tiles', 'walls', 'baroque.png'), #19
-    os.path.join('graphics', 'tiles', 'walls', 'baroque_lamps.png'), #20
-    os.path.join('graphics', 'tiles', 'walls', 'baroque_worn.png'), #21
-    os.path.join('graphics', 'tiles', 'walls', 'baroque_end.png'), #22
-    # Doors
-    os.path.join('graphics', 'tiles', 'walls', 'baroque_door.png'), #23
-    os.path.join('graphics', 'tiles', 'walls', 'baroque_door.png'), #24
-    # Sprites
-    os.path.join('graphics', 'tiles', 'sprites', 'fern.png'), #25
-    ]
+        # Doors 6&7 Originally Double-Defined
+        game_api.paths["wood_door"],  #6
+        game_api.paths["wood_door"],  #7
+        # Sprites
+        game_api.paths["pillar"],  #8
+        game_api.paths["table"],  #9
+        game_api.paths["lysekrone"],  #10
+
+        #-- Stone theme --
+        # Walls
+        game_api.paths["stone_wall"],  # 11
+        game_api.paths["stone_vent"],  #12
+        game_api.paths["stone_wall_crack"],  #13
+        game_api.paths["stone_vase"],  #14
+        game_api.paths["stone_end"],  #15
+
+        # Sprites
+        game_api.paths["lysestage"], #16
+        game_api.paths["barrel"], #17
+        game_api.paths["stone_pillar"], #18
+
+        #-- Baroque theme --
+        # Walls
+        game_api.paths["baroque"], #19
+        game_api.paths["baroque_lamps"], #20
+        game_api.paths["baroque_worn"], #21
+        game_api.paths["baroque_end"], # 22
+
+        # Doors
+        game_api.paths["baroque_door"], #23
+        game_api.paths["baroque_door"], #24
+        # Sprites
+        game_api.paths["fern"] #25
+        ]
+    all_textures += game_api.get_custom_textures()
+

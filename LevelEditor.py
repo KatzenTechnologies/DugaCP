@@ -11,6 +11,21 @@ import ENTITIES
 import SETTINGS
 import TEXTURES
 import TEXT
+from dugacp import modload
+from dugacp.api import *
+
+if __name__ == '__main__':
+    # Инициализируем API игры
+    game_api = DugaAPI()
+
+    # Запускаем модлоадер
+    dugacp = modload.ModManager(game_api=game_api)
+    dugacp.load_mods()
+
+    # Передаём API игры во все библиотеки игры
+    TEXTURES.init_dugacp_api(game_api)
+    ENTITIES.init_dugacp_api(game_api)
+    SETTINGS.init_dugacp_api(game_api)
 
 pygame.init()
 pygame.font.init()
@@ -165,6 +180,7 @@ class Canvas:
         self.exit = False
 
         self.tile_textures = []
+        print(TEXTURES.all_textures)
         for i in range(len(TEXTURES.all_textures)):
             texture = TEXTURES.all_textures[i]
             t = pygame.image.load(texture).convert_alpha()

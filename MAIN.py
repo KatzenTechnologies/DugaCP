@@ -30,6 +30,8 @@ import GENERATION
 import MENU
 import MUSIC
 import TUTORIAL
+from dugacp import modload
+from dugacp.api import *
 
 pygame.init()
 pygame.font.init()
@@ -489,6 +491,20 @@ def main_loop():
 #Probably temporary object init
 #SETTINGS.current_level = 5 #temporary
 if __name__ == '__main__':
+    # Инициализируем API игры
+    game_api = DugaAPI()
+
+    # Запускаем модлоадер
+    dugacp = modload.ModManager(game_api=game_api)
+    dugacp.load_mods()
+
+    # Передаём API игры во все библиотеки игры
+    EFFECTS.init_dugacp_api(game_api)
+    MENU.init_dugacp_api(game_api)
+    ENTITIES.init_dugacp_api(game_api)
+    SETTINGS.init_dugacp_api(game_api)
+    TEXTURES.init_dugacp_api(game_api)
+
     gameLoad = Load()
     gameLoad.load_resources()
     gameLoad.load_entities()
@@ -502,8 +518,8 @@ if __name__ == '__main__':
 
     #Setup and classes
 
-    text = TEXT.Text(0,0,"YOU  WON", SETTINGS.WHITE, "DUGAFONT.ttf", 48)
-    beta = TEXT.Text(5,5,"DUGA  BETA  BUILD  V. 1.3", SETTINGS.WHITE, "DUGAFONT.ttf", 20)
+    text = TEXT.Text(0,0,"YOU  WON", SETTINGS.WHITE, game_api.get_font(), 48)
+    beta = TEXT.Text(5,5,"DUGA  BETA  BUILD  V. 1.3", SETTINGS.WHITE, game_api.get_font(), 20)
     text.update_pos(SETTINGS.canvas_actual_width/2 - text.layout.get_width()/2, SETTINGS.canvas_target_height/2 - text.layout.get_height()/2)
 
     #Classes for later use

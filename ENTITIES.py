@@ -2,19 +2,25 @@ import SETTINGS
 import GUNS
 import NPC
 import ITEMS
-
+import katz
 from os import *
 import pygame
 import copy
 import random
 
-#When creating guns, remember to create an item for the gun as well. 
+#When creating guns, remember to create an item for the gun as well.
+
+def init_dugacp_api(game_api):
+    """Функция заглушка, нужна для возможности патчинга всего функционала игры"""
+    global dugacp_api
+    dugacp_api = game_api
 
 def load_guns():
     #AK 47 - 0
-    SETTINGS.gun_list.append(GUNS.Gun(
-        {'spritesheet': path.join('graphics', 'weapon', 'ak_spritesheet.png'),
-         'item': path.join('graphics', 'items', 'akitem.png')
+    guns = {}
+    guns.update({"ak47": GUNS.Gun(
+        {'spritesheet': dugacp_api.paths["ak_spritesheet"],
+         'item': dugacp_api.paths["akitem"]
          },{
             'dmg' : 3,
             'spread' : 50,
@@ -32,12 +38,12 @@ def load_guns():
                 'click': [pygame.mixer.Sound(path.join('sounds', 'weapons', 'AK_click1.ogg')), pygame.mixer.Sound(path.join('sounds', 'weapons', 'AK_click2.ogg'))],
                 'magout': [pygame.mixer.Sound(path.join('sounds', 'weapons', 'AK_magout1.ogg')), pygame.mixer.Sound(path.join('sounds', 'weapons', 'AK_magout2.ogg'))],
                 'magin': [pygame.mixer.Sound(path.join('sounds', 'weapons', 'AK_magin1.ogg')), pygame.mixer.Sound(path.join('sounds', 'weapons', 'AK_magin2.ogg'))]
-                },(35,7)))
+                },(35,7))})
     
     #Double Barrel Shotgun - 1
-    SETTINGS.gun_list.append(GUNS.Gun(
-        {'spritesheet': path.join('graphics', 'weapon', 'shotgun_spritesheet.png'),
-         'item': path.join('graphics', 'items', 'shotgun.png')
+    guns.update({"shotgun": GUNS.Gun(
+        {'spritesheet': dugacp_api.paths["shotgun_spritesheet"],
+         'item': dugacp_api.paths["shotgun"]
          },{
             'dmg' : 10,
             'spread' : 200,
@@ -55,12 +61,12 @@ def load_guns():
                 'click': [pygame.mixer.Sound(path.join('sounds', 'weapons', 'universal_click.ogg'))],
                 'magout': [pygame.mixer.Sound(path.join('sounds', 'weapons', 'shotgun_magout1.ogg')), pygame.mixer.Sound(path.join('sounds', 'weapons', 'shotgun_magout2.ogg'))],
                 'magin': [pygame.mixer.Sound(path.join('sounds', 'weapons', 'shotgun_magin1.ogg')), pygame.mixer.Sound(path.join('sounds', 'weapons', 'shotgun_magin2.ogg'))]
-                }, (34,10)))
+                }, (34,10))})
 
     #Hand gun - 2
-    SETTINGS.gun_list.append(GUNS.Gun(
-        {'spritesheet' : path.join('graphics', 'weapon', 'pistol_spritesheet.png'),
-         'item' : path.join('graphics', 'items', 'gun.png')
+    guns.update({"pistol": GUNS.Gun(
+        {'spritesheet': dugacp_api.paths["pistol_spritesheet"],
+         'item' : dugacp_api.paths["gun"]
          },{
              'dmg' : 2,
              'spread': 40,
@@ -78,12 +84,12 @@ def load_guns():
                 'click': [pygame.mixer.Sound(path.join('sounds', 'weapons', 'universal_click.ogg'))],
                 'magout': [pygame.mixer.Sound(path.join('sounds', 'weapons', 'pistol_magout1.ogg')), pygame.mixer.Sound(path.join('sounds', 'weapons', 'pistol_magout2.ogg'))],
                 'magin': [pygame.mixer.Sound(path.join('sounds', 'weapons', 'pistol_magin1.ogg')), pygame.mixer.Sound(path.join('sounds', 'weapons', 'pistol_magin2.ogg'))]
-                }, (37,6)))
+                }, (37,6))})
 
     #Knife - 3
-    SETTINGS.gun_list.append(GUNS.Gun(
-        {'spritesheet' : path.join('graphics', 'weapon', 'knife_spritesheet.png'),
-         'item' : path.join('graphics', 'items', 'knifeitem.png')
+    guns.update({"knife": GUNS.Gun(
+        {'spritesheet' : dugacp_api.paths["knife_spritesheet"],
+         'item' : dugacp_api.paths["knifeitem"]
          },{
              'dmg' : 2,
              'spread': 40, 
@@ -101,12 +107,12 @@ def load_guns():
                 'click': [pygame.mixer.Sound(path.join('sounds', 'other', 'none.ogg'))],
                 'magout': [pygame.mixer.Sound(path.join('sounds', 'other', 'none.ogg'))],
                 'magin': [pygame.mixer.Sound(path.join('sounds', 'other', 'none.ogg'))]
-                }, (37,10)))
+                }, (37,10))})
 
     #Brass Knuckles - 4
-    SETTINGS.gun_list.append(GUNS.Gun(
-        {'spritesheet' : path.join('graphics', 'weapon', 'brass_spritesheet.png'),
-         'item' : path.join('graphics', 'items', 'brassitem.png')
+    guns.update({"brassknuckles": GUNS.Gun(
+        {'spritesheet' : dugacp_api.paths["brass_spritesheet"],
+         'item' : dugacp_api.paths["brassitem"]
          },{
              'dmg' : 1,
              'spread': 30, 
@@ -124,12 +130,12 @@ def load_guns():
                 'click': [pygame.mixer.Sound(path.join('sounds', 'other', 'none.ogg'))],
                 'magout': [pygame.mixer.Sound(path.join('sounds', 'other', 'none.ogg'))],
                 'magin': [pygame.mixer.Sound(path.join('sounds', 'other', 'none.ogg'))]
-                }, (37,10)))
+                }, (37,10))})
     
    # Gauss - 5
-    SETTINGS.gun_list.append(GUNS.Gun(
-        {'spritesheet': path.join('graphics', 'weapon', 'gauss_spritesheet.png'),
-         'item': path.join('graphics', 'items', 'gaussitem.png')
+    guns.update({"gauss": GUNS.Gun(
+        {'spritesheet': dugacp_api.paths["gauss_spritesheet"],
+         'item': dugacp_api.paths["gaussitem"]
          },{
             'dmg' : 6,
             'spread' : 10,
@@ -147,12 +153,12 @@ def load_guns():
                 'click': [pygame.mixer.Sound(path.join('sounds', 'weapons', 'AK_click1.ogg')), pygame.mixer.Sound(path.join('sounds', 'weapons', 'AK_click2.ogg'))],
                 'magout': [pygame.mixer.Sound(path.join('sounds', 'weapons', 'AK_magout1.ogg')), pygame.mixer.Sound(path.join('sounds', 'weapons', 'AK_magout2.ogg'))],
                 'magin': [pygame.mixer.Sound(path.join('sounds', 'weapons', 'AK_magin1.ogg')), pygame.mixer.Sound(path.join('sounds', 'weapons', 'AK_magin2.ogg'))]
-                },(35,7)))
+                },(35,7))})
 
     #Shotgun pistol - 6
-    SETTINGS.gun_list.append(GUNS.Gun(
-        {'spritesheet' : path.join('graphics', 'weapon', 'sgp_spritesheet.png'),
-         'item' : path.join('graphics', 'items', 'shotpistol.png')
+    guns.update({"shotgunpistol": GUNS.Gun(
+        {'spritesheet' : dugacp_api.paths["sgp_spritesheet"],
+         'item' : dugacp_api.paths["shotpistol"]
          },{
              'dmg' : 6,
              'spread': 100,
@@ -170,13 +176,13 @@ def load_guns():
                 'click': [pygame.mixer.Sound(path.join('sounds', 'weapons', 'universal_click.ogg'))],
                 'magout': [pygame.mixer.Sound(path.join('sounds', 'weapons', 'shotgun_magout1.ogg')), pygame.mixer.Sound(path.join('sounds', 'weapons', 'shotgun_magout2.ogg'))],
                 'magin': [pygame.mixer.Sound(path.join('sounds', 'weapons', 'shotgun_magin1.ogg')), pygame.mixer.Sound(path.join('sounds', 'weapons', 'shotgun_magin2.ogg'))]
-                }, (37,6)))
+                }, (37,6))})
     
     # ------ SPECIAL WEAPONS ----------
     #Fast Brass Knuckles - 7
-    SETTINGS.gun_list.append(GUNS.Gun(
-        {'spritesheet' : path.join('graphics', 'weapon', 'brass_brass_spritesheet.png'),
-         'item' : path.join('graphics', 'items', 'brassbrassitem.png')
+    guns.update({"fastbrassknuckles": GUNS.Gun(
+        {'spritesheet' : dugacp_api.paths["brass_brass_spritesheet"],
+         'item' : dugacp_api.paths["brassbrassitem"]
          },{
              'dmg' : 1,
              'spread': 30, 
@@ -194,12 +200,12 @@ def load_guns():
                 'click': [pygame.mixer.Sound(path.join('sounds', 'other', 'none.ogg'))],
                 'magout': [pygame.mixer.Sound(path.join('sounds', 'other', 'none.ogg'))],
                 'magin': [pygame.mixer.Sound(path.join('sounds', 'other', 'none.ogg'))]
-                }, (37,10)))
+                }, (37,10))})
 
     #Bloody Brass Knuckles - 8
-    SETTINGS.gun_list.append(GUNS.Gun(
-        {'spritesheet' : path.join('graphics', 'weapon', 'blood_brass_spritesheet.png'),
-         'item' : path.join('graphics', 'items', 'bloodbrassitem.png')
+    guns.update({"bloodybrassknuckles": GUNS.Gun(
+        {'spritesheet' : dugacp_api.paths["blood_brass_spritesheet"],
+         'item' : dugacp_api.paths["bloodbrassitem"]
          },{
              'dmg' : 20,
              'spread': 60, 
@@ -217,12 +223,12 @@ def load_guns():
                 'click': [pygame.mixer.Sound(path.join('sounds', 'other', 'none.ogg'))],
                 'magout': [pygame.mixer.Sound(path.join('sounds', 'other', 'none.ogg'))],
                 'magin': [pygame.mixer.Sound(path.join('sounds', 'other', 'none.ogg'))]
-                }, (37,10)))
+                }, (37,10))})
     
     #Sharp Knife - 9
-    SETTINGS.gun_list.append(GUNS.Gun(
-        {'spritesheet' : path.join('graphics', 'weapon', 'shiny_knife_spritesheet.png'),
-         'item' : path.join('graphics', 'items', 'shinyknifeitem.png')
+    guns.update({"sharpknife": GUNS.Gun(
+        {'spritesheet' : dugacp_api.paths["shiny_knife_spritesheet"],
+         'item' : dugacp_api.paths["shinyknifeitem"]
          },{
              'dmg' : 3,
              'spread': 40, 
@@ -240,12 +246,12 @@ def load_guns():
                 'click': [pygame.mixer.Sound(path.join('sounds', 'other', 'none.ogg'))],
                 'magout': [pygame.mixer.Sound(path.join('sounds', 'other', 'none.ogg'))],
                 'magin': [pygame.mixer.Sound(path.join('sounds', 'other', 'none.ogg'))]
-                }, (37,10)))
+                }, (37,10))})
 
     #Fast Knife - 10
-    SETTINGS.gun_list.append(GUNS.Gun(
-        {'spritesheet' : path.join('graphics', 'weapon', 'desert_knife_spritesheet.png'),
-         'item' : path.join('graphics', 'items', 'desertknifeitem.png')
+    guns.update({"lightknife": GUNS.Gun(
+        {'spritesheet' : dugacp_api.paths["desert_knife_spritesheet"],
+         'item' : dugacp_api.paths["desertknifeitem"]
          },{
              'dmg' : 2,
              'spread': 30, 
@@ -263,12 +269,12 @@ def load_guns():
                 'click': [pygame.mixer.Sound(path.join('sounds', 'other', 'none.ogg'))],
                 'magout': [pygame.mixer.Sound(path.join('sounds', 'other', 'none.ogg'))],
                 'magin': [pygame.mixer.Sound(path.join('sounds', 'other', 'none.ogg'))]
-                }, (37,10)))
+                }, (37,10))})
     
     #Modded Double Barrel Shotgun - 11
-    SETTINGS.gun_list.append(GUNS.Gun(
-        {'spritesheet': path.join('graphics', 'weapon', 'modded_shotgun_spritesheet.png'),
-         'item': path.join('graphics', 'items', 'moddedshotgun.png')
+    guns.update({"modifiedshotgun": GUNS.Gun(
+        {'spritesheet': dugacp_api.paths["modded_shotgun_spritesheet"],
+         'item': dugacp_api.paths["moddedshotgun"]
          },{
             'dmg' : 15,
             'spread' : 220,
@@ -286,10 +292,10 @@ def load_guns():
                 'click': [pygame.mixer.Sound(path.join('sounds', 'weapons', 'universal_click.ogg'))],
                 'magout': [pygame.mixer.Sound(path.join('sounds', 'weapons', 'shotgun_magout1.ogg')), pygame.mixer.Sound(path.join('sounds', 'weapons', 'shotgun_magout2.ogg'))],
                 'magin': [pygame.mixer.Sound(path.join('sounds', 'weapons', 'shotgun_magin1.ogg')), pygame.mixer.Sound(path.join('sounds', 'weapons', 'shotgun_magin2.ogg'))]
-                }, (34,10)))
+                }, (34,10))})
 
     #Impossible Double Barrel Shotgun - 12
-    SETTINGS.gun_list.append(GUNS.Gun(
+    guns.update({"tbshotgun": GUNS.Gun(
         {'spritesheet': path.join('graphics', 'weapon', 'shotgun_spritesheet.png'),
          'item': path.join('graphics', 'items', 'weirdshotgun.png')
          },{
@@ -309,12 +315,12 @@ def load_guns():
                 'click': [pygame.mixer.Sound(path.join('sounds', 'weapons', 'universal_click.ogg'))],
                 'magout': [pygame.mixer.Sound(path.join('sounds', 'weapons', 'shotgun_magout1.ogg')), pygame.mixer.Sound(path.join('sounds', 'weapons', 'shotgun_magout2.ogg'))],
                 'magin': [pygame.mixer.Sound(path.join('sounds', 'weapons', 'shotgun_magin1.ogg')), pygame.mixer.Sound(path.join('sounds', 'weapons', 'shotgun_magin2.ogg'))]
-                }, (34,10)))
+                }, (34,10))})
 
     #AK 74 - 13
-    SETTINGS.gun_list.append(GUNS.Gun(
-        {'spritesheet': path.join('graphics', 'weapon', 'ak74_spritesheet.png'),
-         'item': path.join('graphics', 'items', 'ak74item.png')
+    guns.update({"ak74": GUNS.Gun(
+        {'spritesheet': dugacp_api.paths["ak74_spritesheet"],
+         'item': dugacp_api.paths["ak74item"]
          },{
             'dmg' : 4,
             'spread' : 30,
@@ -332,12 +338,12 @@ def load_guns():
                 'click': [pygame.mixer.Sound(path.join('sounds', 'weapons', 'AK_click1.ogg')), pygame.mixer.Sound(path.join('sounds', 'weapons', 'AK_click2.ogg'))],
                 'magout': [pygame.mixer.Sound(path.join('sounds', 'weapons', 'AK_magout1.ogg')), pygame.mixer.Sound(path.join('sounds', 'weapons', 'AK_magout2.ogg'))],
                 'magin': [pygame.mixer.Sound(path.join('sounds', 'weapons', 'AK_magin1.ogg')), pygame.mixer.Sound(path.join('sounds', 'weapons', 'AK_magin2.ogg'))]
-                },(35,7)))
+                },(35,7))})
 
     #Extended mag AK - 14
-    SETTINGS.gun_list.append(GUNS.Gun(
-        {'spritesheet': path.join('graphics', 'weapon', 'akext_spritesheet.png'),
-         'item': path.join('graphics', 'items', 'akextitem.png')
+    guns.update({"extmagak47": GUNS.Gun(
+        {'spritesheet': dugacp_api.paths["akext_spritesheet"],
+         'item': dugacp_api.paths["akextitem"]
          },{
             'dmg' : 3,
             'spread' : 50,
@@ -355,12 +361,12 @@ def load_guns():
                 'click': [pygame.mixer.Sound(path.join('sounds', 'weapons', 'AK_click1.ogg')), pygame.mixer.Sound(path.join('sounds', 'weapons', 'AK_click2.ogg'))],
                 'magout': [pygame.mixer.Sound(path.join('sounds', 'weapons', 'AK_magout1.ogg')), pygame.mixer.Sound(path.join('sounds', 'weapons', 'AK_magout2.ogg'))],
                 'magin': [pygame.mixer.Sound(path.join('sounds', 'weapons', 'AK_magin1.ogg')), pygame.mixer.Sound(path.join('sounds', 'weapons', 'AK_magin2.ogg'))]
-                },(35,7)))
+                },(35,7))})
 
     #Camo AK-47 - 15
-    SETTINGS.gun_list.append(GUNS.Gun(
-        {'spritesheet': path.join('graphics', 'weapon', 'camo_ak_spritesheet.png'),
-         'item': path.join('graphics', 'items', 'camoakitem.png')
+    guns.update({"camoak47": GUNS.Gun(
+        {'spritesheet': dugacp_api.paths["camo_ak_spritesheet"],
+         'item': dugacp_api.paths["camoakitem"]
          },{
             'dmg' : 3,
             'spread' : 50,
@@ -378,12 +384,12 @@ def load_guns():
                 'click': [pygame.mixer.Sound(path.join('sounds', 'weapons', 'AK_click1.ogg')), pygame.mixer.Sound(path.join('sounds', 'weapons', 'AK_click2.ogg'))],
                 'magout': [pygame.mixer.Sound(path.join('sounds', 'weapons', 'AK_magout1.ogg')), pygame.mixer.Sound(path.join('sounds', 'weapons', 'AK_magout2.ogg'))],
                 'magin': [pygame.mixer.Sound(path.join('sounds', 'weapons', 'AK_magin1.ogg')), pygame.mixer.Sound(path.join('sounds', 'weapons', 'AK_magin2.ogg'))]
-                },(35,7)))
+                },(35,7))})
 
     #Light AK-47 - 16
-    SETTINGS.gun_list.append(GUNS.Gun(
-        {'spritesheet': path.join('graphics', 'weapon', 'ak_spritesheet.png'),
-         'item': path.join('graphics', 'items', 'lightakitem.png')
+    guns.update({"lightak": GUNS.Gun(
+        {'spritesheet': dugacp_api.paths["lightak_spritesheet"],
+         'item': dugacp_api.paths["lightakitem"]
          },{
             'dmg' : 3,
             'spread' : 60,
@@ -401,12 +407,12 @@ def load_guns():
                 'click': [pygame.mixer.Sound(path.join('sounds', 'weapons', 'AK_click1.ogg')), pygame.mixer.Sound(path.join('sounds', 'weapons', 'AK_click2.ogg'))],
                 'magout': [pygame.mixer.Sound(path.join('sounds', 'weapons', 'AK_magout1.ogg')), pygame.mixer.Sound(path.join('sounds', 'weapons', 'AK_magout2.ogg'))],
                 'magin': [pygame.mixer.Sound(path.join('sounds', 'weapons', 'AK_magin1.ogg')), pygame.mixer.Sound(path.join('sounds', 'weapons', 'AK_magin2.ogg'))]
-                },(35,7)))
+                },(35,7))})
 
     #Gauss Hand gun - 17
-    SETTINGS.gun_list.append(GUNS.Gun(
-        {'spritesheet' : path.join('graphics', 'weapon', 'gauss_pistol_spritesheet.png'),
-         'item' : path.join('graphics', 'items', 'gaussgun.png')
+    guns.update({"anomalypistol": GUNS.Gun(
+        {'spritesheet' : dugacp_api.paths["gauss_pistol_spritesheet"],
+         'item' : dugacp_api.paths["gaussgun"]
          },{
              'dmg' : 9,
              'spread': 30,
@@ -424,12 +430,12 @@ def load_guns():
                 'click': [pygame.mixer.Sound(path.join('sounds', 'weapons', 'AK_click1.ogg')), pygame.mixer.Sound(path.join('sounds', 'weapons', 'AK_click2.ogg'))],
                 'magout': [pygame.mixer.Sound(path.join('sounds', 'weapons', 'AK_magout1.ogg')), pygame.mixer.Sound(path.join('sounds', 'weapons', 'AK_magout2.ogg'))],
                 'magin': [pygame.mixer.Sound(path.join('sounds', 'weapons', 'AK_magin1.ogg')), pygame.mixer.Sound(path.join('sounds', 'weapons', 'AK_magin2.ogg'))]
-                }, (37,6)))
+                }, (37,6))})
 
     #High power Hand gun - 18
-    SETTINGS.gun_list.append(GUNS.Gun(
-        {'spritesheet' : path.join('graphics', 'weapon', 'pistol_spritesheet.png'),
-         'item' : path.join('graphics', 'items', 'hpgun.png')
+    guns.update({"hppistol": GUNS.Gun(
+        {'spritesheet' : dugacp_api.paths["hpgun_spritesheet"],
+         'item' : dugacp_api.paths["hpgun"]
          },{
              'dmg' : 3,
              'spread': 40,
@@ -447,12 +453,12 @@ def load_guns():
                 'click': [pygame.mixer.Sound(path.join('sounds', 'weapons', 'universal_click.ogg'))],
                 'magout': [pygame.mixer.Sound(path.join('sounds', 'weapons', 'pistol_magout1.ogg')), pygame.mixer.Sound(path.join('sounds', 'weapons', 'pistol_magout2.ogg'))],
                 'magin': [pygame.mixer.Sound(path.join('sounds', 'weapons', 'pistol_magin1.ogg')), pygame.mixer.Sound(path.join('sounds', 'weapons', 'pistol_magin2.ogg'))]
-                }, (37,6)))
+                }, (37,6))})
 
     #Modded Gauss - 19
-    SETTINGS.gun_list.append(GUNS.Gun(
-        {'spritesheet': path.join('graphics', 'weapon', 'modded_gauss_spritesheet.png'),
-         'item': path.join('graphics', 'items', 'moddedgaussitem.png')
+    guns.update({"moddedgauss": GUNS.Gun(
+        {'spritesheet': dugacp_api.paths["modded_gauss_spritesheet"],
+         'item': dugacp_api.paths["moddedgaussitem"]
          },{
             'dmg' : 9,
             'spread' : 10,
@@ -470,12 +476,12 @@ def load_guns():
                 'click': [pygame.mixer.Sound(path.join('sounds', 'weapons', 'AK_click1.ogg')), pygame.mixer.Sound(path.join('sounds', 'weapons', 'AK_click2.ogg'))],
                 'magout': [pygame.mixer.Sound(path.join('sounds', 'weapons', 'AK_magout1.ogg')), pygame.mixer.Sound(path.join('sounds', 'weapons', 'AK_magout2.ogg'))],
                 'magin': [pygame.mixer.Sound(path.join('sounds', 'weapons', 'AK_magin1.ogg')), pygame.mixer.Sound(path.join('sounds', 'weapons', 'AK_magin2.ogg'))]
-                },(35,7)))
+                },(35,7))})
 
     #bump Gauss - 20
-    SETTINGS.gun_list.append(GUNS.Gun(
-        {'spritesheet': path.join('graphics', 'weapon', 'bump_gauss_spritesheet.png'),
-         'item': path.join('graphics', 'items', 'bumpgaussitem.png')
+    guns.update({"bumpgauss": GUNS.Gun(
+        {'spritesheet': dugacp_api.paths["bump_gauss_spritesheet"],
+         'item': dugacp_api.paths["bumpgaussitem"]
          },{
             'dmg' : 6,
             'spread' : 20,
@@ -493,12 +499,12 @@ def load_guns():
                 'click': [pygame.mixer.Sound(path.join('sounds', 'weapons', 'AK_click1.ogg')), pygame.mixer.Sound(path.join('sounds', 'weapons', 'AK_click2.ogg'))],
                 'magout': [pygame.mixer.Sound(path.join('sounds', 'weapons', 'AK_magout1.ogg')), pygame.mixer.Sound(path.join('sounds', 'weapons', 'AK_magout2.ogg'))],
                 'magin': [pygame.mixer.Sound(path.join('sounds', 'weapons', 'AK_magin1.ogg')), pygame.mixer.Sound(path.join('sounds', 'weapons', 'AK_magin2.ogg'))]
-                },(35,7)))
+                },(35,7))})
 
     #Black Shotgun pistol - 21
-    SETTINGS.gun_list.append(GUNS.Gun(
-        {'spritesheet' : path.join('graphics', 'weapon', 'black_sgp_spritesheet.png'),
-         'item' : path.join('graphics', 'items', 'blackshotpistol.png')
+    guns.update({"moddedsgp": GUNS.Gun(
+        {'spritesheet' : dugacp_api.paths["black_sgp_spritesheet"],
+         'item' : dugacp_api.paths["blackshotpistol"]
          },{
              'dmg' : 8,
              'spread': 100,
@@ -516,12 +522,12 @@ def load_guns():
                 'click': [pygame.mixer.Sound(path.join('sounds', 'weapons', 'universal_click.ogg'))],
                 'magout': [pygame.mixer.Sound(path.join('sounds', 'weapons', 'shotgun_magout1.ogg')), pygame.mixer.Sound(path.join('sounds', 'weapons', 'shotgun_magout2.ogg'))],
                 'magin': [pygame.mixer.Sound(path.join('sounds', 'weapons', 'shotgun_magin1.ogg')), pygame.mixer.Sound(path.join('sounds', 'weapons', 'shotgun_magin2.ogg'))]
-                }, (37,6)))
+                }, (37,6))})
 
     #TWO Shotgun pistol - 22
-    SETTINGS.gun_list.append(GUNS.Gun(
-        {'spritesheet' : path.join('graphics', 'weapon', 'wtf_sgp_spritesheet.png'),
-         'item' : path.join('graphics', 'items', 'wtfshotpistol.png')
+    guns.update({"wtfsgp": GUNS.Gun(
+        {'spritesheet' : dugacp_api.paths["wtf_sgp_spritesheet"],
+         'item' : dugacp_api.paths["wtfshotpistol"]
          },{
              'dmg' : 12,
              'spread': 150,
@@ -539,12 +545,12 @@ def load_guns():
                 'click': [pygame.mixer.Sound(path.join('sounds', 'weapons', 'universal_click.ogg'))],
                 'magout': [pygame.mixer.Sound(path.join('sounds', 'weapons', 'shotgun_magout1.ogg')), pygame.mixer.Sound(path.join('sounds', 'weapons', 'shotgun_magout2.ogg'))],
                 'magin': [pygame.mixer.Sound(path.join('sounds', 'weapons', 'shotgun_magin1.ogg')), pygame.mixer.Sound(path.join('sounds', 'weapons', 'shotgun_magin2.ogg'))]
-                }, (37,6)))
+                }, (37,6))})
 
     #Auto Hand gun - 23
-    SETTINGS.gun_list.append(GUNS.Gun(
-        {'spritesheet' : path.join('graphics', 'weapon', 'auto_pistol_spritesheet.png'),
-         'item' : path.join('graphics', 'items', 'autogun.png')
+    guns.update({"wtfsgp": GUNS.Gun(
+        {'spritesheet' : dugacp_api.paths["auto_pistol_spritesheet"],
+         'item' : dugacp_api.paths["autogun"]
          },{
              'dmg' : 2,
              'spread': 40,
@@ -562,7 +568,11 @@ def load_guns():
                 'click': [pygame.mixer.Sound(path.join('sounds', 'weapons', 'universal_click.ogg'))],
                 'magout': [pygame.mixer.Sound(path.join('sounds', 'weapons', 'pistol_magout1.ogg')), pygame.mixer.Sound(path.join('sounds', 'weapons', 'pistol_magout2.ogg'))],
                 'magin': [pygame.mixer.Sound(path.join('sounds', 'weapons', 'pistol_magin1.ogg')), pygame.mixer.Sound(path.join('sounds', 'weapons', 'pistol_magin2.ogg'))]
-                }, (37,6)))
+                }, (37,6))})
+
+    guns = dugacp_api._ENTITIES_get_guns(guns)
+
+    SETTINGS.gun_list += list(katz.inverse(guns))
 
 def load_npc_types():
     SETTINGS.npc_types = [
@@ -974,6 +984,7 @@ def spawn_npcs():
 
 
 def load_item_types():
+    print(SETTINGS.gun_list)
     SETTINGS.item_types = [
             #Health
             {
@@ -1003,62 +1014,14 @@ def load_item_types():
                 'effect': 4,
                 'id': 3
                 },
-            #Knife
-            {
-                'filepath' : tuple(SETTINGS.gun_list[3].itemtexture.split('\\')),
-                'type' : SETTINGS.gun_list[3].guntype,
-                'effect': SETTINGS.gun_list[3],
-                'id': 4
-                },
-            #Pistol
-            {
-                'filepath' : tuple(SETTINGS.gun_list[2].itemtexture.split('\\')),
-                'type': SETTINGS.gun_list[2].guntype,
-                'effect': SETTINGS.gun_list[2],
-                'id': 5
-                },
-            #AK-47
-            {
-                'filepath' : tuple(SETTINGS.gun_list[0].itemtexture.split('\\')),
-                'type' : SETTINGS.gun_list[0].guntype,
-                'effect': SETTINGS.gun_list[0],
-                'id': 6
-                },
-            #DB Shotgun
-            {
-                'filepath' : tuple(SETTINGS.gun_list[1].itemtexture.split('\\')),
-                'type' : SETTINGS.gun_list[1].guntype,
-                'effect': SETTINGS.gun_list[1],
-                'id': 7
-                },
-            #Brass Knuckles
-            {
-                'filepath' : tuple(SETTINGS.gun_list[4].itemtexture.split('\\')),
-                'type' : SETTINGS.gun_list[4].guntype,
-                'effect': SETTINGS.gun_list[4],
-                'id': 8
-                },
-            #Gauss rifle
-            {
-                'filepath' : tuple(SETTINGS.gun_list[5].itemtexture.split('\\')),
-                'type' : SETTINGS.gun_list[5].guntype,
-                'effect': SETTINGS.gun_list[5],
-                'id': 9,
-                },
             #ferromag ammo
             {
                 'filepath' : ('graphics', 'items', 'ferromag.png'),
                 'type' : 'ferromag',
                 'effect': 6,
-                'id': 10,
+                'id': 4,
                 },
-            #Shotgun pistol
-            {
-                'filepath' : tuple(SETTINGS.gun_list[6].itemtexture.split('\\')),
-                'type' : SETTINGS.gun_list[6].guntype,
-                'effect': SETTINGS.gun_list[6],
-                'id': 11,
-                },
+
 
             #Random any item
             {
@@ -1067,7 +1030,7 @@ def load_item_types():
                 'effect': ['health', 'armor', 'bullet', 'shell', 'ferromag',
                            'health', 'armor', 'bullet', 'shell', 'ferromag',
                            'melee', 'secondary', 'primary'],
-                'id': 12,
+                'id': 5,
                 },
 
 
@@ -1076,7 +1039,7 @@ def load_item_types():
                 'filepath' : ('graphics', 'items', 'randomgun.png'),
                 'type' : 'random',
                 'effect': ['melee', 'secondary', 'primary'],
-                'id': 13,
+                'id': 6,
                 },
 
             #Random item
@@ -1084,145 +1047,15 @@ def load_item_types():
                 'filepath' : ('graphics', 'items', 'randomitem.png'),
                 'type' : 'random',
                 'effect': ['health', 'armor', 'bullet', 'shell', 'ferromag'],
-                'id': 14,
-                },
-
-            #Light Brass Knuckles
-            {
-                'filepath' : tuple(SETTINGS.gun_list[7].itemtexture.split('\\')),
-                'type' : SETTINGS.gun_list[7].guntype,
-                'effect': SETTINGS.gun_list[7],
-                'id': 15
-                },
-
-            #Bloody Brass Knuckles
-            {
-                'filepath' : tuple(SETTINGS.gun_list[8].itemtexture.split('\\')),
-                'type' : SETTINGS.gun_list[8].guntype,
-                'effect': SETTINGS.gun_list[8],
-                'id': 16
-                },
-
-            #shiny knife
-            {
-                'filepath' : tuple(SETTINGS.gun_list[9].itemtexture.split('\\')),
-                'type' : SETTINGS.gun_list[9].guntype,
-                'effect': SETTINGS.gun_list[9],
-                'id': 17
-                },
-
-            #desert knife
-            {
-                'filepath' : tuple(SETTINGS.gun_list[10].itemtexture.split('\\')),
-                'type' : SETTINGS.gun_list[10].guntype,
-                'effect': SETTINGS.gun_list[10],
-                'id': 18
-                },
-
-            #modded shotgun
-            {
-                'filepath' : tuple(SETTINGS.gun_list[11].itemtexture.split('\\')),
-                'type' : SETTINGS.gun_list[11].guntype,
-                'effect': SETTINGS.gun_list[11],
-                'id': 19
-                },
-
-            #Impossible Shotgun
-            {
-                'filepath' : tuple(SETTINGS.gun_list[12].itemtexture.split('\\')),
-                'type' : SETTINGS.gun_list[12].guntype,
-                'effect': SETTINGS.gun_list[12],
-                'id': 20
-                },
-
-            #AK 74
-            {
-                'filepath' : tuple(SETTINGS.gun_list[13].itemtexture.split('\\')),
-                'type' : SETTINGS.gun_list[13].guntype,
-                'effect': SETTINGS.gun_list[13],
-                'id': 21
-                },
-
-            #AK 47 extended magazine
-            {
-                'filepath' : tuple(SETTINGS.gun_list[14].itemtexture.split('\\')),
-                'type' : SETTINGS.gun_list[14].guntype,
-                'effect': SETTINGS.gun_list[14],
-                'id': 22
-                },
-
-            #Camo AK-47
-            {
-                'filepath' : tuple(SETTINGS.gun_list[15].itemtexture.split('\\')),
-                'type' : SETTINGS.gun_list[15].guntype,
-                'effect': SETTINGS.gun_list[15],
-                'id': 23
-                },
-
-            #Light AK-47
-            {
-                'filepath' : tuple(SETTINGS.gun_list[16].itemtexture.split('\\')),
-                'type' : SETTINGS.gun_list[16].guntype,
-                'effect': SETTINGS.gun_list[16],
-                'id': 24
-                },
-
-            #Gauss pistol
-            {
-                'filepath' : tuple(SETTINGS.gun_list[17].itemtexture.split('\\')),
-                'type' : SETTINGS.gun_list[17].guntype,
-                'effect': SETTINGS.gun_list[17],
-                'id': 25
-                },
-
-            #HP Pistol
-            {
-                'filepath' : tuple(SETTINGS.gun_list[18].itemtexture.split('\\')),
-                'type' : SETTINGS.gun_list[18].guntype,
-                'effect': SETTINGS.gun_list[18],
-                'id': 26
-                },
-
-            #Modded Gauss
-            {
-                'filepath' : tuple(SETTINGS.gun_list[19].itemtexture.split('\\')),
-                'type' : SETTINGS.gun_list[19].guntype,
-                'effect': SETTINGS.gun_list[19],
-                'id': 27
-                },
-
-            #Bump Gauss
-            {
-                'filepath' : tuple(SETTINGS.gun_list[20].itemtexture.split('\\')),
-                'type' : SETTINGS.gun_list[20].guntype,
-                'effect': SETTINGS.gun_list[20],
-                'id': 28
-                },
-
-            #Black Shotgun Pistol
-            {
-                'filepath' : tuple(SETTINGS.gun_list[21].itemtexture.split('\\')),
-                'type' : SETTINGS.gun_list[21].guntype,
-                'effect': SETTINGS.gun_list[21],
-                'id': 29
-                },
-
-            #wtf shotgun pistol
-            {
-                'filepath' : tuple(SETTINGS.gun_list[22].itemtexture.split('\\')),
-                'type' : SETTINGS.gun_list[22].guntype,
-                'effect': SETTINGS.gun_list[22],
-                'id': 30
-                },
-
-            #auto pistol
-            {
-                'filepath' : tuple(SETTINGS.gun_list[23].itemtexture.split('\\')),
-                'type' : SETTINGS.gun_list[23].guntype,
-                'effect': SETTINGS.gun_list[23],
-                'id': 31
+                'id': 7,
                 },
             ]
+    # Для возможности удалять/добавлять оружия
+    for i in range(len(SETTINGS.gun_list)):
+        SETTINGS.item_types.append({'filepath' : tuple(SETTINGS.gun_list[i].itemtexture.split('\\')),
+                'type' : SETTINGS.gun_list[i].guntype,
+                'effect': SETTINGS.gun_list[i],
+                'id': 8+i})
 
 def spawn_items():
     seed = SETTINGS.current_level + SETTINGS.seed

@@ -9,6 +9,11 @@ import SOUND
 
 SETTINGS.menu_showing = True
 
+def init_dugacp_api(game_api):
+    """Функция заглушка, нужна для возможности патчинга всего функционала игры"""
+    global dugacp_api
+    dugacp_api = game_api
+
 class Controller:
 
     def __init__(self, canvas):
@@ -31,7 +36,7 @@ class Controller:
 
     def load_settings(self):
         #This script does not change the settings themselves, but only the settings.dat
-        with open(os.path.join('data', 'settings.dat'), 'rb') as file1:
+        with open(dugacp_api.paths["settings"], 'rb') as file1:
             settings = pickle.load(file1)
 
         self.current_settings = settings
@@ -44,7 +49,7 @@ class Controller:
         current_settings = self.optionsMenu.current_settings
         current_settings['shut up'] = self.shut_up
         
-        with open(os.path.join('data', 'settings.dat'), 'wb') as file2:
+        with open(dugacp_api.paths["settings"], 'wb') as file2:
             pickle.dump(current_settings, file2)
             
 
@@ -152,12 +157,11 @@ class Controller:
 
             if key[pygame.K_ESCAPE]:
                 self.esc_pressed = True
-                
 
 class Menu:
 
     def __init__(self, title):
-        self.title = TEXT.Text(0,0, title, SETTINGS.BLACK, "DUGAFONT.ttf", 120)
+        self.title = TEXT.Text(0,0, title, SETTINGS.BLACK, dugacp_api.get_font(), 120)
         self.title.update_pos((SETTINGS.canvas_actual_width/2)-(self.title.layout.get_width()/2)+8, 20)
 
         self.background_image = None
@@ -173,41 +177,56 @@ class MainMenu(Menu):
         self.credits_button = Button((SETTINGS.canvas_actual_width/2, 410, 200, 60), "CREDITS")
         self.quit_button = Button((SETTINGS.canvas_actual_width/2, 500, 200, 60), "QUIT")
 
-        self.logo = pygame.image.load(os.path.join('graphics', 'logo_cutout.png')).convert_alpha()
+        self.logo = pygame.image.load(dugacp_api.paths["logo_cutout"]).convert_alpha()
         self.logo_rect = self.logo.get_rect()
 
         self.logo_surface = pygame.Surface(self.logo.get_size()).convert()
         self.logo_surface_rect = self.logo_surface.get_rect()
         self.logo_surface_rect.center = (SETTINGS.canvas_actual_width/2, 90)
-        
+
+        # Передаём в апи значения для регистрации menutile'ов
+        dugacp_api._menutiles_set_logo_surface_rect_left(self.logo_surface_rect.left)
+
         #(image, x-position)
-        self.stone_tiles = [[pygame.image.load(os.path.join('graphics', 'tiles', 'walls', 'stone_wall.png')).convert(), self.logo_surface_rect.left],
-                      [pygame.image.load(os.path.join('graphics', 'tiles', 'walls', 'stone_wall_crack.png')).convert(), self.logo_surface_rect.left + 160],
-                      [pygame.image.load(os.path.join('graphics', 'tiles', 'walls', 'stone_wall.png')).convert(), self.logo_surface_rect.left + (2*160)],
-                      [pygame.image.load(os.path.join('graphics', 'tiles', 'walls', 'stone_wall.png')).convert(), self.logo_surface_rect.left + (3*160)],
-                      [pygame.image.load(os.path.join('graphics', 'tiles', 'walls', 'stone_vent.png')).convert(), self.logo_surface_rect.left + (4*160)],
-                      [pygame.image.load(os.path.join('graphics', 'tiles', 'walls', 'stone_wall.png')).convert(), self.logo_surface_rect.left + (5*160)],
-                      [pygame.image.load(os.path.join('graphics', 'tiles', 'walls', 'stone_vase.png')).convert(), self.logo_surface_rect.left + (6*160)],
-                      [pygame.image.load(os.path.join('graphics', 'tiles', 'walls', 'stone_wall.png')).convert(), self.logo_surface_rect.left + (7*160)],
-                      [pygame.image.load(os.path.join('graphics', 'tiles', 'walls', 'stone_wall.png')).convert(), self.logo_surface_rect.left + (8*160)]]
+        self.stone_tile = dugacp_api.get_menutile_object()
+        self.stone_tile.set_name("stone")
+        self.stone_tile.add_texture(dugacp_api.paths["stone_wall"])
+        self.stone_tile.add_texture(dugacp_api.paths["stone_wall_crack"])
+        self.stone_tile.add_texture(dugacp_api.paths["stone_wall"])
+        self.stone_tile.add_texture(dugacp_api.paths["stone_wall"])
+        self.stone_tile.add_texture(dugacp_api.paths["stone_vent"])
+        self.stone_tile.add_texture(dugacp_api.paths["stone_wall"])
+        self.stone_tile.add_texture(dugacp_api.paths["stone_vase"])
+        self.stone_tile.add_texture(dugacp_api.paths["stone_wall"])
+        self.stone_tile.add_texture(dugacp_api.paths["stone_wall"])
 
-        self.baroque_tiles = [[pygame.image.load(os.path.join('graphics', 'tiles', 'walls', 'baroque.png')).convert(), self.logo_surface_rect.left],
-                      [pygame.image.load(os.path.join('graphics', 'tiles', 'walls', 'baroque.png')).convert(), self.logo_surface_rect.left + 160],
-                      [pygame.image.load(os.path.join('graphics', 'tiles', 'walls', 'baroque_lamps.png')).convert(), self.logo_surface_rect.left + (2*160)],
-                      [pygame.image.load(os.path.join('graphics', 'tiles', 'walls', 'baroque.png')).convert(), self.logo_surface_rect.left + (3*160)],
-                      [pygame.image.load(os.path.join('graphics', 'tiles', 'walls', 'baroque.png')).convert(), self.logo_surface_rect.left + (4*160)],
-                      [pygame.image.load(os.path.join('graphics', 'tiles', 'walls', 'baroque_worn.png')).convert(), self.logo_surface_rect.left + (5*160)],
-                      [pygame.image.load(os.path.join('graphics', 'tiles', 'walls', 'baroque.png')).convert(), self.logo_surface_rect.left + (6*160)]]
-        
-        self.wood_tiles = [[pygame.image.load(os.path.join('graphics', 'tiles', 'walls', 'wood_wall.png')).convert(), self.logo_surface_rect.left],
-                      [pygame.image.load(os.path.join('graphics', 'tiles', 'walls', 'wood_painting.png')).convert(), self.logo_surface_rect.left + 160],
-                      [pygame.image.load(os.path.join('graphics', 'tiles', 'walls', 'wood_wall.png')).convert(), self.logo_surface_rect.left + (2*160)],
-                      [pygame.image.load(os.path.join('graphics', 'tiles', 'walls', 'wood_wall.png')).convert(), self.logo_surface_rect.left + (3*160)],
-                      [pygame.image.load(os.path.join('graphics', 'tiles', 'walls', 'wood_books.png')).convert(), self.logo_surface_rect.left + (4*160)],
-                      [pygame.image.load(os.path.join('graphics', 'tiles', 'walls', 'wood_fireplace.png')).convert(), self.logo_surface_rect.left + (5*160)],
-                      [pygame.image.load(os.path.join('graphics', 'tiles', 'walls', 'wood_wall.png')).convert(), self.logo_surface_rect.left + (6*160)]]
+        dugacp_api.add_menutile(self.stone_tile)
 
-        self.tiles = random.choice((self.stone_tiles, self.baroque_tiles, self.wood_tiles))
+        self.baroque_tile = dugacp_api.get_menutile_object()
+        self.baroque_tile.set_name("baroque")
+        self.baroque_tile.add_texture(dugacp_api.paths["baroque"])
+        self.baroque_tile.add_texture(dugacp_api.paths["baroque"])
+        self.baroque_tile.add_texture(dugacp_api.paths["baroque_lamps"])
+        self.baroque_tile.add_texture(dugacp_api.paths["baroque"])
+        self.baroque_tile.add_texture(dugacp_api.paths["baroque"])
+        self.baroque_tile.add_texture(dugacp_api.paths["baroque_worn"])
+        self.baroque_tile.add_texture(dugacp_api.paths["baroque"])
+
+        dugacp_api.add_menutile(self.baroque_tile)
+
+        self.wood_tile = dugacp_api.get_menutile_object()
+        self.wood_tile.set_name("wood")
+        self.wood_tile.add_texture(dugacp_api.paths["wood_wall"])
+        self.wood_tile.add_texture(dugacp_api.paths["wood_painting"])
+        self.wood_tile.add_texture(dugacp_api.paths["wood_wall"])
+        self.wood_tile.add_texture(dugacp_api.paths["wood_wall"])
+        self.wood_tile.add_texture(dugacp_api.paths["wood_books"])
+        self.wood_tile.add_texture(dugacp_api.paths["wood_fireplace"])
+        self.wood_tile.add_texture(dugacp_api.paths["wood_wall"])
+
+        dugacp_api.add_menutile(self.wood_tile)
+
+        self.tiles = random.choice(dugacp_api._menutiles_get_duga_values())
                     
         
         for i in range(len(self.tiles)):
@@ -246,10 +265,10 @@ class NewMenu(Menu):
         self.tutorial_button = Button((SETTINGS.canvas_actual_width/2, 325, 200, 30), "TUTORIAL")
         self.back_button = Button((SETTINGS.canvas_actual_width/2, 500, 200, 60), "BACK")
 
-        self.loading = TEXT.Text(0,0, "LOADING...", SETTINGS.BLACK, "DUGAFONT.ttf", 74)
+        self.loading = TEXT.Text(0,0, "LOADING...", SETTINGS.BLACK, dugacp_api.get_font(), 74)
         self.loading.update_pos((SETTINGS.canvas_actual_width/2)-(self.loading.layout.get_width()/2)+8, (SETTINGS.canvas_target_height/2)-(self.loading.layout.get_height()/2))
 
-        self.nolevels = TEXT.Text(0,0, "NO  CUSTOM  LEVELS", SETTINGS.RED, "DUGAFONT.ttf", 50)
+        self.nolevels = TEXT.Text(0,0, "NO  CUSTOM  LEVELS", SETTINGS.RED, dugacp_api.get_font(), 50)
         self.nolevels.update_pos((SETTINGS.canvas_actual_width/2)-(self.nolevels.layout.get_width()/2)+8, (SETTINGS.canvas_target_height/2)-(self.nolevels.layout.get_height()/2))
         self.timer = 0
         self.no_levels_on = False
@@ -350,7 +369,7 @@ class OptionsMenu(Menu):
         self.fullscreen_button = Button((SETTINGS.canvas_actual_width/2, 400, 300, 30), "FULLSCREEN: %s" % self.onoff[self.fs_index])
         self.back_button = Button((SETTINGS.canvas_actual_width/2, 500, 200, 60), "BACK")
 
-        self.restart = TEXT.Text(0,0, 'RESTART GAME TO APPLY CHANGES', SETTINGS.LIGHTGRAY, "DUGAFONT.ttf", 20)
+        self.restart = TEXT.Text(0,0, 'RESTART GAME TO APPLY CHANGES', SETTINGS.LIGHTGRAY, dugacp_api.get_font(), 20)
         self.restart.update_pos((SETTINGS.canvas_actual_width/2)-(self.restart.layout.get_width()/2), 580)
 
         self.current_settings = {
@@ -452,9 +471,9 @@ class ScoreMenu(Menu):
 
         for i in range(len(self.best_scores)):
             if i == 0:
-                self.texts.append(TEXT.Text(0, 0, self.best_scores[i], SETTINGS.DARKGRAY, "DUGAFONT.ttf", 18))
+                self.texts.append(TEXT.Text(0, 0, self.best_scores[i], SETTINGS.DARKGRAY, dugacp_api.get_font(), 18))
             else:
-                self.texts.append(TEXT.Text(0, 0, self.best_scores[i], SETTINGS.WHITE, "DUGAFONT.ttf", 18))
+                self.texts.append(TEXT.Text(0, 0, self.best_scores[i], SETTINGS.WHITE, dugacp_api.get_font(), 18))
             self.texts[i].update_pos(10, self.pos)
             self.pos += 30
 
@@ -470,12 +489,12 @@ class ScoreMenu(Menu):
 
         for i in range(len(self.last_scores)):
             if i == 0:
-                self.last_texts.append(TEXT.Text(0, 0, self.last_scores[i], SETTINGS.DARKGRAY, "DUGAFONT.ttf", 18))
+                self.last_texts.append(TEXT.Text(0, 0, self.last_scores[i], SETTINGS.DARKGRAY, dugacp_api.get_font(), 18))
             else:
                 if self.last_scores[i] == self.best_scores[i] and self.last_scores[i].find(' 0') == -1:
-                    self.last_texts.append(TEXT.Text(0, 0, self.last_scores[i], (100,100,200), "DUGAFONT.ttf", 18))
+                    self.last_texts.append(TEXT.Text(0, 0, self.last_scores[i], (100,100,200), dugacp_api.get_font(), 18))
                 else:
-                    self.last_texts.append(TEXT.Text(0, 0, self.last_scores[i], SETTINGS.WHITE, "DUGAFONT.ttf", 18))
+                    self.last_texts.append(TEXT.Text(0, 0, self.last_scores[i], SETTINGS.WHITE, dugacp_api.get_font(), 18))
             self.last_texts[i].update_pos(210, self.pos)
             self.pos += 30
 
@@ -535,32 +554,32 @@ class CreditsMenu(Menu):
         self.back_button = Button((SETTINGS.canvas_actual_width/2, 500, 200, 60), "BACK")
 
         #Created by
-        self.createdby = TEXT.Text(0,0, 'CREATED  BY', SETTINGS.LIGHTGRAY, "DUGAFONT.ttf", 24)
+        self.createdby = TEXT.Text(0,0, 'CREATED  BY', SETTINGS.LIGHTGRAY, dugacp_api.get_font(), 24)
         self.createdby.update_pos((SETTINGS.canvas_actual_width/2)-(self.createdby.layout.get_width()/2)+8, 130)
 
-        self.maxwellsalmon = TEXT.Text(0,0, 'MAXWELLSALMON', SETTINGS.DARKGRAY, "DUGAFONT.ttf", 38)
+        self.maxwellsalmon = TEXT.Text(0,0, 'MAXWELLSALMON & KatzenTechnologies', SETTINGS.DARKGRAY, dugacp_api.get_font(), 38)
         self.maxwellsalmon.update_pos((SETTINGS.canvas_actual_width/2)-(self.maxwellsalmon.layout.get_width()/2)+8, 160)
 
         #Music
-        self.musicby = TEXT.Text(0,0, 'MUSIC  BY', SETTINGS.LIGHTGRAY, "DUGAFONT.ttf", 20)
+        self.musicby = TEXT.Text(0,0, 'MUSIC  BY', SETTINGS.LIGHTGRAY, dugacp_api.get_font(), 20)
         self.musicby.update_pos((SETTINGS.canvas_actual_width/2)-(self.musicby.layout.get_width()/2)+8, 210)
         
-        self.eli = TEXT.Text(0,0, 'HUD-LUM @ SOUNDCLOUD', SETTINGS.DARKGRAY, "DUGAFONT.ttf", 30)
+        self.eli = TEXT.Text(0,0, 'HUD-LUM @ SOUNDCLOUD', SETTINGS.DARKGRAY, dugacp_api.get_font(), 30)
         self.eli.update_pos((SETTINGS.canvas_actual_width/2)-(self.eli.layout.get_width()/2)+8, 240)
 
         #Maps
-        self.contributions = TEXT.Text(0,0, 'THANKS  TO', SETTINGS.LIGHTGRAY, "DUGAFONT.ttf", 20)
+        self.contributions = TEXT.Text(0,0, 'THANKS  TO', SETTINGS.LIGHTGRAY, dugacp_api.get_font(), 20)
         self.contributions.update_pos((SETTINGS.canvas_actual_width/2)-(self.contributions.layout.get_width()/2)+8, 290)
 
-        self.contributors = TEXT.Text(0,0, 'POELE,  OLE,  ROCKETTHEMINIFIG,  ANDY BOY,  J4CKINS' , SETTINGS.DARKGRAY, "DUGAFONT.ttf", 20)
+        self.contributors = TEXT.Text(0,0, 'POELE,  OLE,  ROCKETTHEMINIFIG,  ANDY BOY,  J4CKINS' , SETTINGS.DARKGRAY, dugacp_api.get_font(), 20)
         self.contributors.update_pos((SETTINGS.canvas_actual_width/2)-(self.contributors.layout.get_width()/2)+8, 320)
-        self.contributors2 =  TEXT.Text(0,0, 'THEFATHOBBITS,  STARLITEPONY' , SETTINGS.DARKGRAY, "DUGAFONT.ttf", 20)
+        self.contributors2 =  TEXT.Text(0,0, 'THEFATHOBBITS,  STARLITEPONY' , SETTINGS.DARKGRAY, dugacp_api.get_font(), 20)
         self.contributors2.update_pos((SETTINGS.canvas_actual_width/2)-(self.contributors2.layout.get_width()/2)+8, 345)
 
-        self.specialthanks = TEXT.Text(0,0, 'THANKS  TO  THE  PYGAME  COMMUNITY  FOR  HELP  AND  MOTIVATION', SETTINGS.DARKGRAY, "DUGAFONT.ttf", 15)
+        self.specialthanks = TEXT.Text(0,0, 'THANKS  TO  THE  PYGAME  COMMUNITY  FOR  HELP  AND  MOTIVATION', SETTINGS.DARKGRAY, dugacp_api.get_font(), 15)
         self.specialthanks.update_pos((SETTINGS.canvas_actual_width/2)-(self.specialthanks.layout.get_width()/2)+8, 380)
 
-        self.and_you = TEXT.Text(0,0, 'THANKS  TO  YOU  FOR  PLAYING!' , SETTINGS.GREEN, "DUGAFONT.ttf", 22)
+        self.and_you = TEXT.Text(0,0, 'THANKS  TO  YOU  FOR  PLAYING!' , SETTINGS.GREEN, dugacp_api.get_font(), 22)
         self.and_you.update_pos((SETTINGS.canvas_actual_width/2)-(self.and_you.layout.get_width()/2)+8, 410)
 
 
@@ -588,7 +607,7 @@ class SupportSplash:
         self.rect.topleft = SETTINGS.canvas_actual_width - 220, SETTINGS.canvas_target_height - 280
         self.area.fill((200,200,200))
 
-        self.title = TEXT.Text(0,0, 'THANKS   FOR   PLAYING', SETTINGS.DARKGRAY, "DUGAFONT.ttf", 19)
+        self.title = TEXT.Text(0,0, 'THANKS   FOR   PLAYING', SETTINGS.DARKGRAY, dugacp_api.get_font(), 19)
         self.title.update_pos((self.rect.width/2) - (self.title.layout.get_width()/2)+2, 5)
 
         self.pleas = ['You  have  been  playing  DUGA', 'for  over  two  hours  now.  I', 'really  hope  you  enjoy  it.',
@@ -602,7 +621,7 @@ class SupportSplash:
         self.button = Button((SETTINGS.canvas_actual_width - 120, SETTINGS.canvas_target_height - 15, 192, 40), "LEAVE ME ALONE!")
 
         for i in range(len(self.pleas)):
-            self.texts.append(TEXT.Text(0, 0, self.pleas[i], SETTINGS.WHITE, "DUGAFONT.ttf", 15))
+            self.texts.append(TEXT.Text(0, 0, self.pleas[i], SETTINGS.WHITE, dugacp_api.get_font(), 15))
             self.texts[i].update_pos((self.rect.width/2) - (self.texts[i].layout.get_width()/2)+2, self.pos)
             self.pos += 17
         
@@ -650,7 +669,7 @@ class Button:
         self.rect.center = (xywh[0], xywh[1])
         self.clicked = False
 
-        self.text = TEXT.Text(0,0, text, SETTINGS.WHITE, "DUGAFONT.ttf", 24)
+        self.text = TEXT.Text(0,0, text, SETTINGS.WHITE, dugacp_api.get_font(), 24)
         self.text.update_pos(xywh[0] - self.text.layout.get_width()/2, xywh[1] - (self.text.layout.get_height() / 2)+2)
 
         self.filling = SETTINGS.LIGHTGRAY

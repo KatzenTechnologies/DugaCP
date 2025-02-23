@@ -3,3 +3,8 @@ Andet/
 build/
 dist/
 pyinstaller.exe
+.idea/
+mods/*
+mods.log
+customLevels.dat
+/data/*
