@@ -15,8 +15,6 @@ Read in <a href="">DugaCP's Documentation (hadnt written it lol)</a><br>
 <h1>Liked our work?</h1>
 You can report bugs, create & share your mods or do contribution to DugaCP's code!<br>
 <h1>Contributors</h1>
-[![All Contributors](https://img.shields.io/github/all-contributors/KatzenTechnologies/DugaCP?color=ee8449&style=flat-square)](#contributors)
-
 <h2>And ✨SPECIAL✨ thanks to <a href="https://github.com/MaxwellSalmon">MaxwellSalmon</a> (DUGA's Author) for creating this excellent game and coolmathedev (no github) for creating DugaML!</h2>
 <h1>Comparison with coolmanthedev's modloader (DugaML)</h1>
 
