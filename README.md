@@ -14,7 +14,17 @@ Our realisation of DUGA's API is not excellent and not full, so you cant do some
 Read in <a href="">DugaCP's Documentation (hadnt written it lol)</a><br>
 <h1>Liked our work?</h1>
 You can report bugs, create & share your mods or do contribution to DugaCP's code!<br>
-<h1>And ✨SPECIAL✨ thanks to <a href="https://github.com/MaxwellSalmon">MaxwellSalmon</a> (DUGA's Author) for creating this excellent game and coolmathedev (no github) for creating DugaML!</h1>
+<h1>Contributors</h1>
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+
+<!-- markdownlint-restore -->
+<!-- prettier-ignore-end -->
+
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+<h2>And ✨SPECIAL✨ thanks to <a href="https://github.com/MaxwellSalmon">MaxwellSalmon</a> (DUGA's Author) for creating this excellent game and coolmathedev (no github) for creating DugaML!</h2>
 <h1>Comparison with coolmanthedev's modloader (DugaML)</h1>
 
 | **Feature**                                | DugaCP       | DugaML       |
