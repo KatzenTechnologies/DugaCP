@@ -14,3 +14,4 @@ Our realisation of DUGA's API is not excellent and not full, so you cant do some
 Read in <a href="">DugaCP's Documentation (hadnt written it lol)</a><br>
 <h1>Liked our work?</h1><br>
 You can report bugs, create & share your mods or do contribution to DugaCP's code!<br>
+<h1>And ✨SPECIAL✨ thanks to <a href="https://github.com/MaxwellSalmon">MaxwellSalmon</a> (DUGA's Author) for creating this excellent game!</h1>
