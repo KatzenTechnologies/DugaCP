@@ -22,8 +22,8 @@ You can report bugs, create & share your mods or do contribution to DugaCP's cod
 | ------------------------------------------ | ------------ | ------------ |
 | Code Patching                              | ✅           | ❌           |
 | Mod-to-mod interaction                     | ✅           | ❌           |
-| Gun Add                                    | ⌛(WIP)       | ✅           |
-| Gun Remove                                 | ⌛(WIP)       | ❌           |
+| Gun Add                                    | ✅       | ✅           |
+| Gun Remove                                 | ✅       | ❌           |
 | Texture Modifying                          | ✅           | ✅           |
 | Sound Modifying                            | ❌           | ✅           |
 | Text Modifying                             | ❌           | ✅           |
