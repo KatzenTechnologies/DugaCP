@@ -20,7 +20,7 @@ class DugaAPI:
         self._original_spawnrates = original_data.spawn_mapping
 
     def _ENTITIES_get_guns(self, guns_dictionary: dict):
-        self._guns_dict = guns_dictionary
+
         value = guns_dictionary
         value.update(self._new_guns)
 
@@ -28,15 +28,12 @@ class DugaAPI:
             if value.get(i) is not None:
                 value.pop(i)
 
+        self._guns_dict = value
+
         return value
 
     def _GENERATION_get_spawnratings(self):
         value = self._guns_dict
-        value.update(self._new_guns)
-
-        for i in self._removed_guns:
-            if value.get(i) is not None:
-                value.pop(i)
 
         spawnrates = {}
 
