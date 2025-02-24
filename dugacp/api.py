@@ -15,8 +15,12 @@ class DugaAPI:
         self._visible_tiles = {}
         self._removed_guns = []
         self._new_guns = {}
+        self._spawn_ratings = {}
+        self._guns_dict = {}
+        self._original_spawnrates = original_data.spawn_mapping
 
     def _ENTITIES_get_guns(self, guns_dictionary: dict):
+        self._guns_dict = guns_dictionary
         value = guns_dictionary
         value.update(self._new_guns)
 
@@ -25,6 +29,26 @@ class DugaAPI:
                 value.pop(i)
 
         return value
+
+    def _GENERATION_get_spawnratings(self):
+        value = self._guns_dict
+        value.update(self._new_guns)
+
+        for i in self._removed_guns:
+            if value.get(i) is not None:
+                value.pop(i)
+
+        spawnrates = {}
+
+        count = 5
+        for i in value:
+            if i in self._original_spawnrates:
+                spawnrates.update({count: self._original_spawnrates[i]})
+            else:
+                spawnrates.update({count: self._spawn_ratings[i]})
+            count += 1
+
+        return spawnrates
 
     def _menutiles_get_duga_values(self):
         _value = []
@@ -35,8 +59,9 @@ class DugaAPI:
     def _menutiles_set_logo_surface_rect_left(self, data, ):
         self.logo_surface_rect_left = data
 
-    def add_gun(self, gun_id, gun):
+    def add_gun(self, gun_id, gun, spawnrate):
         self._new_guns.update({gun_id: gun})
+        self._spawn_ratings.update({gun_id: spawnrate})
 
     def remove_gun(self, gun_id):
         self._removed_guns.append(gun_id)

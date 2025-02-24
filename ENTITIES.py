@@ -180,7 +180,7 @@ def load_guns():
     
     # ------ SPECIAL WEAPONS ----------
     #Fast Brass Knuckles - 7
-    guns.update({"fastbrassknuckles": GUNS.Gun(
+    guns.update({"lightbrassknuckles": GUNS.Gun(
         {'spritesheet' : dugacp_api.paths["brass_brass_spritesheet"],
          'item' : dugacp_api.paths["brassbrassitem"]
          },{
@@ -548,7 +548,7 @@ def load_guns():
                 }, (37,6))})
 
     #Auto Hand gun - 23
-    guns.update({"wtfsgp": GUNS.Gun(
+    guns.update({"autopistol": GUNS.Gun(
         {'spritesheet' : dugacp_api.paths["auto_pistol_spritesheet"],
          'item' : dugacp_api.paths["autogun"]
          },{

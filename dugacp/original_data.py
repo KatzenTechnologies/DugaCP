@@ -78,6 +78,34 @@ paths = {
     "wtfshotpistol": path.join('graphics', 'items', 'wtfshotpistol.png'),
     "auto_pistol_spritesheet": path.join('graphics', 'weapon', 'auto_pistol_spritesheet.png'),
     "autogun": path.join('graphics', 'items', 'autogun.png')
+}
+
+spawn_mapping = {
+    "ak47": 13,
+    "shotgun": 10,
+    "pistol": 16,
+    "knife": 15,
+    "brassknuckles": 11,
+    "gauss": 7,
+    "shotgunpistol": 14,
+    "lightbrassknuckles": 8,
+    "bloodybrassknuckles": 1,
+    "sharpknife": 8,
+    "lightknife": 10,
+    "modifiedshotgun": 6,
+    "tbshotgun": 6,
+    "ak74": 8,
+    "extmagak47": 10,
+    "camoak47": 12,
+    "lightak": 12,
+    "anomalypistol": 1,
+    "hppistol": 8,  # should be 16
+    "moddedgauss": 4,
+    "bumpgauss": 3,
+    "moddedsgp": 6,  # should be 11 Black SGP
+    "wtfsgp": 2,  # should be 3
+    "autopistol": 8
+
 
 
 }

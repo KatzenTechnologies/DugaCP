@@ -7,6 +7,11 @@ import SETTINGS
 import TEXTURES
 import LEVELS
 
+def init_dugacp_api(game_api):
+    """Функция заглушка, нужна для возможности патчинга всего функционала игры"""
+    global dugacp_api
+    dugacp_api = game_api
+
 class Generator:
 
     def __init__(self):
@@ -30,35 +35,10 @@ class Generator:
             1 : 30, #Kevlar
             2 : 25, #bullet
             3 : 18, #shell
-            4 : 15, #knife
-            5 : 16, #pistol
-            6 : 13, #ak47
-            7 : 10, #shotgun
-            8 : 11, #knuckles
-            9 : 7, #gauss
-            10 : 20, #ferromag
-            11 : 14, #sg pistol  --¤¤¤¤--
-            12 : 8, #light knuckles
-            13 : 1, #blood knuckles
-            14 : 8, #shiny knife
-            15 : 10, #desert knife
-            16 : 6, #modded shotgun
-            17 : 6, #impossible shotgun
-            18 : 8, #ak74
-            19 : 10, #ak47 ext mag
-            20 : 12, #camo ak47
-            21 : 12, #light ak47
-            22 : 1, #gauss pistol
-            23 : 8, #hp pistol
-            24 : 4, #modded gauss
-            25 : 3, #bump gauss
-            26 : 5, #black sg pistol
-            27 : 1, # wtf pistol
-            28 : 8, #hp pistol
-            29 : 6, #black sgp
-            30 : 2, #wtf sgp
-            31 : 8, #auto pistol
+            4: 20,  # ferromag
             }
+
+        self.item_spawns.update(dugacp_api._GENERATION_get_spawnratings())
         
         for i in self.item_spawns:
             for x in range(self.item_spawns[i]):
@@ -421,7 +401,9 @@ class Generator:
                     newseg.level_pos = seg.level_pos
                     changesegs.append((newseg, i)) #Gritty way of doing it...
                 else:
-                    print("WARNING: No segment with doors: ", access, " of type ", x.type)
+                    # print("WARNING: No segment with doors: ", access, " of type ", x.type)
+                    # x.type not defined fixed bug
+                    pass
             i += 1
 
         #Finally replace array and self.segpath segments with new segments.

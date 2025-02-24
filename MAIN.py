@@ -504,6 +504,7 @@ if __name__ == '__main__':
     ENTITIES.init_dugacp_api(game_api)
     SETTINGS.init_dugacp_api(game_api)
     TEXTURES.init_dugacp_api(game_api)
+    GENERATION.init_dugacp_api(game_api)
 
     gameLoad = Load()
     gameLoad.load_resources()
