@@ -48,7 +48,7 @@ class ModDependencyManager:
 # ================== Класс для управления модами ==================
 class ModManager:
     def __init__(self, game_api, mods_dir: str = "mods", game_dir: str = "game", log_file: str = "mods.log"):
-        self.game_api = game_api  # Сохраняем API игры внутри менеджера
+        self.game_api = game_api
         self.mods_dir = Path(mods_dir)
         self.game_dir = Path(game_dir)
         self.log_file = Path(log_file)
@@ -58,17 +58,72 @@ class ModManager:
         self.function_factories: List[Callable] = {}
         self.game_modules: Dict[str, Any] = {}
         self.dependency_manager = ModDependencyManager()
+        self.events: Dict[str, List[Callable]] = {}
+        self.commands: Dict[str, Callable] = {}
+        self.mod_configs: Dict[str, Dict[str, Any]] = {}
+        self.resources: Dict[str, Dict[str, Any]] = {}
 
-        # Настройка логирования
         self._setup_logging()
 
-        # Добавляем папку игры в sys.path
         sys.path.append(str(self.game_dir))
 
-        # Создаем папки, если их нет
         self.mods_dir.mkdir(exist_ok=True)
         self.game_dir.mkdir(exist_ok=True)
 
+    def register_resource(self, mod_id: str, resource_type: str, resource_name: str, resource_path: str):
+        if mod_id not in self.resources:
+            self.resources[mod_id] = {}
+        if resource_type not in self.resources[mod_id]:
+            self.resources[mod_id][resource_type] = {}
+        self.resources[mod_id][resource_type][resource_name] = resource_path
+
+    def get_resource(self, mod_id: str, resource_type: str, resource_name: str) -> Optional[str]:
+        if mod_id in self.resources and resource_type in self.resources[mod_id]:
+            return self.resources[mod_id][resource_type].get(resource_name)
+        return None
+
+    def load_mod_config(self, mod_id: str, config_file: str = "config.json"):
+        mod_folder = self.mods_dir / mod_id
+        config_path = mod_folder / config_file
+        if config_path.exists():
+            try:
+                with open(config_path, "r", encoding="utf-8") as file:
+                    self.mod_configs[mod_id] = json.load(file)
+                    print(f"Конфигурация мода '{mod_id}' загружена")
+            except json.JSONDecodeError as e:
+                print(f"Ошибка чтения конфигурации мода '{mod_id}': {e}")
+        else:
+            print(f"Конфигурационный файл для мода '{mod_id}' не найден")
+
+    def get_mod_config(self, mod_id: str) -> Dict[str, Any]:
+        return self.mod_configs.get(mod_id, {})
+    def register_event(self, event_name: str, handler: Callable):
+        """Регистрирует обработчик события"""
+        if event_name not in self.events:
+            self.events[event_name] = []
+        self.events[event_name].append(handler)
+
+    def trigger_event(self, event_name: str, *args, **kwargs):
+        """Вызывает событие"""
+        if event_name in self.events:
+            for handler in self.events[event_name]:
+                try:
+                    handler(*args, **kwargs)
+                except Exception as e:
+                    print(f"Ошибка при обработке события '{event_name}': {e}")
+    def register_command(self, command_name: str, handler: Callable):
+        """Регистрирует команду"""
+        self.commands[command_name] = handler
+
+    def execute_command(self, command_name: str, *args, **kwargs):
+        """Выполняет команду"""
+        if command_name in self.commands:
+            try:
+                return self.commands[command_name](*args, **kwargs)
+            except Exception as e:
+                print(f"Ошибка при выполнении команды '{command_name}': {e}")
+        else:
+            print(f"Команда '{command_name}' не найдена")
     def _setup_logging(self):
         """Настройка логирования в файл"""
         logging.basicConfig(
