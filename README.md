@@ -15,6 +15,11 @@ Read in <a href="">DugaCP's Documentation (hadnt written it lol)</a><br>
 <h1>Liked our work?</h1>
 You can report bugs, create & share your mods or do contribution to DugaCP's code!<br>
 <h1>Contributors</h1>
+<ul>
+  <li align="center">Northkatz - Main Developer of UniverseLoader and DugaAPI</li>
+  <li align="center">Nebilo_ - Some functional of UniverseLoader</li>
+  <li align="center">Bleachcons - Some functional of DugaAPI & Testing</li>
+</ul>
 <h2>And ✨SPECIAL✨ thanks to <a href="https://github.com/MaxwellSalmon">MaxwellSalmon</a> (DUGA's Author) for creating this excellent game and coolmathedev (no github) for creating DugaML!</h2>
 <h1>Comparison with coolmanthedev's modloader (DugaML)</h1>
 
