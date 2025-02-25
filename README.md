@@ -3,6 +3,8 @@
 <p align="center">Modloader based on runtime-patching, so only use mods you trust, because mod can execute ANY code<br>
 Inspired by coolmanthedev's modloader, which was static and cannot patch code of the game<br>
 Its still in beta-test, so except bugs and report them to us!<br></p>
+<h3><strong>DugaAPI Version: </strong>1.1</h3>
+<h3><strong>UniverseLoader Version: </strong>1.2</h3>
 <h1>Using DugaAPI</h1>
 <p  align="center">Font patching through API is <strong>STRONGLY UNRECOMMENDED</strong>, because not all parts using font patched to use API's data!<br>
 Our realisation of DUGA's API is not excellent and not full, so you cant do some things with your mod, but you have 2 choices:<br></p>
@@ -33,6 +35,6 @@ You can report bugs, create & share your mods or do contribution to DugaCP's cod
 | Sound Modifying                            | ❌           | ✅           |
 | Text Modifying                             | ❌           | ✅           |
 | Font Changing                              | ⌛(WIP)       | ✅           |
-| NPC Add                                    | ❌           | ✅           |
-| NPC Remove                                 | ❌           | ❌           |
+| NPC Add                                    | ✅           | ✅           |
+| NPC Remove                                 | ✅           | ❌           |
 | ✨EXTRA✨ Features                        | ✅           | ❌           |
