@@ -77,7 +77,26 @@ paths = {
     "wtf_sgp_spritesheet": path.join('graphics', 'weapon', 'wtf_sgp_spritesheet.png'),
     "wtfshotpistol": path.join('graphics', 'items', 'wtfshotpistol.png'),
     "auto_pistol_spritesheet": path.join('graphics', 'weapon', 'auto_pistol_spritesheet.png'),
-    "autogun": path.join('graphics', 'items', 'autogun.png')
+    "autogun": path.join('graphics', 'items', 'autogun.png'),
+    "soldier_idle_spritesheet": path.join('graphics', 'npc', 'soldier_spritesheet.png'),
+    "soldier_patrolling_spritesheet": path.join('graphics', 'npc', 'soldier_spritesheet.png'),
+    "ninja_idle_spritesheet": path.join('graphics', 'npc', 'ninja_spritesheet.png'),
+    "ninja_patrolling_spritesheet": path.join('graphics', 'npc', 'ninja_spritesheet.png'),
+    "zombie_idle_spritesheet": path.join('graphics', 'npc', 'zombie_spritesheet.png'),
+    "zombie_patrolling_spritesheet": path.join('graphics', 'npc', 'zombie_spritesheet.png'),
+    "red_soldier_spritesheet": path.join('graphics', 'npc', 'red_soldier_spritesheet.png'),
+    "black_soldier_idle_spritesheet": path.join('graphics', 'npc', 'black_soldier_spritesheet.png'),
+    "black_soldier_patrolling_spritesheet": path.join('graphics', 'npc', 'black_soldier_spritesheet.png'),
+    "green_ninja_idle_spritesheet": path.join('graphics', 'npc', 'green_ninja_spritesheet.png'),
+    "green_ninja_patrolling_spritesheet": path.join('graphics', 'npc', 'green_ninja_spritesheet.png'),
+    "blue_ninja_spritesheet": path.join('graphics', 'npc', 'blue_ninja_spritesheet.png'),
+    "sick_zombie_idle_spritesheet": path.join('graphics', 'npc', 'sick_zombie_spritesheet.png'),
+    "sick_zombie_patrolling_spritesheet": path.join('graphics', 'npc', 'sick_zombie_spritesheet.png'),
+    "sick_zombie_idle_shy_spritesheet": path.join('graphics', 'npc', 'sick_zombie_spritesheet.png'),
+    "blurry_zombie_patrolling_spritesheet": path.join('graphics', 'npc', 'blurry_zombie_spritesheet.png'),
+    "blurry_zombie_idle_spritesheet": path.join('graphics', 'npc', 'blurry_zombie_spritesheet.png'),
+
+
 }
 
 spawn_mapping = {
@@ -105,7 +124,4 @@ spawn_mapping = {
     "moddedsgp": 6,  # should be 11 Black SGP
     "wtfsgp": 2,  # should be 3
     "autopistol": 8
-
-
-
 }

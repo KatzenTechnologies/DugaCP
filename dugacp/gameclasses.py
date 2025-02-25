@@ -1,4 +1,5 @@
 import pygame
+from GUNS import *
 
 # Классы для удобства кодинга апи dugacp
 class MenuTile:

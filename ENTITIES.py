@@ -39,7 +39,7 @@ def load_guns():
                 'magout': [pygame.mixer.Sound(path.join('sounds', 'weapons', 'AK_magout1.ogg')), pygame.mixer.Sound(path.join('sounds', 'weapons', 'AK_magout2.ogg'))],
                 'magin': [pygame.mixer.Sound(path.join('sounds', 'weapons', 'AK_magin1.ogg')), pygame.mixer.Sound(path.join('sounds', 'weapons', 'AK_magin2.ogg'))]
                 },(35,7))})
-    
+
     #Double Barrel Shotgun - 1
     guns.update({"shotgun": GUNS.Gun(
         {'spritesheet': dugacp_api.paths["shotgun_spritesheet"],
@@ -572,12 +572,12 @@ def load_guns():
 
     guns = dugacp_api._ENTITIES_get_guns(guns)
 
-    SETTINGS.gun_list += list(katz.inverse(guns))
+    SETTINGS.gun_list += katz.get_values_list(guns)
 
 def load_npc_types():
-    SETTINGS.npc_types = [
+    npcs = {}
         #soldier idle
-        {
+    npcs.update({"soldier_idle": {
             'pos': [0,0],
             'face': 0,
             'spf': 0.12,
@@ -589,13 +589,13 @@ def load_npc_types():
             'atcktype': 'hitscan',
             'atckrate': 1,
             'id': 0,
-            'filepath' : ('graphics', 'npc', 'soldier_spritesheet.png'),
+            'filepath' : dugacp_api.paths["soldier_idle_spritesheet"],
             'name' : 'idle soldier',
             'soundpack' : 'soldier',
-            },
+            }})
         
         #Soldier Patrolling
-        {
+    npcs.update({"soldier_patrolling": {
             'pos' : [0,0],
             'face' : 0,
             'spf': 0.12,
@@ -607,13 +607,13 @@ def load_npc_types():
             'atcktype': 'hitscan',
             'atckrate': 1,
             'id': 1,
-            'filepath' : ('graphics', 'npc', 'soldier_spritesheet.png'),
+            'filepath' : dugacp_api.paths["soldier_patrolling_spritesheet"],
             'name' : 'patroul soldier',
             'soundpack' : 'soldier',
-            },
+            }})
             
         #Ninja idle
-        {
+    npcs.update({"ninja_idle":{
             'pos' : [0,0],
             'face' : 0,
             'spf': 0.10,
@@ -625,13 +625,13 @@ def load_npc_types():
             'atcktype': 'melee',
             'atckrate': 0.8,
             'id': 2,
-            'filepath' : ('graphics', 'npc', 'ninja_spritesheet.png'),
+            'filepath' : dugacp_api.paths["ninja_idle_spritesheet"],
             'name' : 'idle ninja',
             'soundpack' : 'ninja',
-            },
+            }})
 
-        #Ninja patrolling
-        {
+    #Ninja patrolling
+    npcs.update({"ninja_patrolling": {
             'pos' : [0,0],
             'face' : 0,
             'spf': 0.10,
@@ -643,17 +643,17 @@ def load_npc_types():
             'atcktype': 'melee',
             'atckrate': 0.8,
             'id': 3,
-            'filepath' : ('graphics', 'npc', 'ninja_spritesheet.png'),
+            'filepath' : dugacp_api.paths["ninja_patrolling_spritesheet"],
             'name' : 'patroul ninja',
             'soundpack' : 'ninja',
-            },
+            }})
 
-        #Zombie patroling hostile (no dmg?)
-        {
+    #Zombie patroling hostile (no dmg?)
+    npcs.update({"zombie_patrolling": {
             'pos' : [0,0],
             'face' : 0,
             'spf': 0.12,
-            'dmg': 3.1415, #lol this is used to randomize dmg.
+            'dmg': 3.1415, #lol this is used to randomize dmg. # Northkatz: why it works lol
             'health': 6,
             'speed': 70,
             'mind': 'hostile',
@@ -661,13 +661,13 @@ def load_npc_types():
             'atcktype': 'melee',
             'atckrate': 0.6,
             'id': 4,
-            'filepath' : ('graphics', 'npc', 'zombie_spritesheet.png'),
+            'filepath' : dugacp_api.paths["zombie_patrolling_spritesheet"],
             'name' : 'hostile zombie',
             'soundpack' : 'zombie hostile',
-            },
+            }})
 
         #Zombie idle shy 
-        {
+    npcs.update({"zombie_idle": {
             'pos' : [0,0],
             'face' : 0,
             'spf': 0.12,
@@ -679,13 +679,15 @@ def load_npc_types():
             'atcktype': 'melee',
             'atckrate': 0.6,
             'id': 5,
-            'filepath' : ('graphics', 'npc', 'zombie_spritesheet.png'),
+            'filepath' : dugacp_api.paths["zombie_idle_spritesheet"],
             'name' : 'shy zombie',
             'soundpack' : 'zombie shy',
-            },
-
+            }})
+    ######################################################################
         #random NPC
-        {
+    # ITS CANT BE REMOVED!!!!!!!
+
+    SETTINGS.npc_types.append({
             'pos' : [0,0],
             'face' : 0,
             'spf': 0,
@@ -700,11 +702,12 @@ def load_npc_types():
             'filepath' : ('graphics', 'npc', 'random_spritesheet.png'),
             'name' : 'random',
             'soundpack' : None,
-            },
+            })
+    ######################################################################
 
         #SPECIAL NPCS --------
         #Boss idle
-        {
+    npcs.update({"redsoldier_idle": {
             'pos' : [0,0],
             'face' : 0,
             'spf': 0.10,
@@ -716,13 +719,13 @@ def load_npc_types():
             'atcktype': 'hitscan',
             'atckrate': 3,
             'id': 7,
-            'filepath' : ('graphics', 'npc', 'red_soldier_spritesheet.png'),
+            'filepath' : dugacp_api.paths["red_soldier_spritesheet"],
             'name' : 'idle red',
             'soundpack' : 'red soldier',
-            },
+            }})
         
         #black soldier idle
-        {
+    npcs.update({"blacksoldier_idle": {
             'pos': [0,0],
             'face': 0,
             'spf': 0.12,
@@ -734,14 +737,14 @@ def load_npc_types():
             'atcktype': 'hitscan',
             'atckrate': 0.5,
             'id': 8,
-            'filepath' : ('graphics', 'npc', 'black_soldier_spritesheet.png'),
+            'filepath' : dugacp_api.paths["black_soldier_idle_spritesheet"],
             'name' : 'black idle',
             'soundpack' : 'soldier',
-            },
+            }})
         
 
         #black soldier patroul
-        {
+    npcs.update({"blacksoldier_patrolling": {
             'pos': [0,0],
             'face': 0,
             'spf': 0.12,
@@ -753,13 +756,13 @@ def load_npc_types():
             'atcktype': 'hitscan',
             'atckrate': 1.5,
             'id': 9,
-            'filepath' : ('graphics', 'npc', 'black_soldier_spritesheet.png'),
+            'filepath' : dugacp_api.paths["black_soldier_patrolling_spritesheet"],
             'name' : 'black patroul',
             'soundpack' : 'soldier',
-            },
+            }})
 
         #green ninja idle
-        {
+    npcs.update({"greenninja_idle": {
             'pos' : [0,0],
             'face' : 0,
             'spf': 0.12,
@@ -771,13 +774,13 @@ def load_npc_types():
             'atcktype': 'melee',
             'atckrate': 0.5,
             'id': 10,
-            'filepath' : ('graphics', 'npc', 'green_ninja_spritesheet.png'),
+            'filepath' : dugacp_api.paths["green_ninja_idle_spritesheet"],
             'name' : 'idle green',
             'soundpack' : 'ninja',
-            },
+            }})
 
         #green ninja patrolling
-        {
+    npcs.update({"greenninja_patrolling": {
             'pos' : [0,0],
             'face' : 0,
             'spf': 0.12,
@@ -789,13 +792,13 @@ def load_npc_types():
             'atcktype': 'melee',
             'atckrate': 0.5,
             'id': 11,
-            'filepath' : ('graphics', 'npc', 'green_ninja_spritesheet.png'),
+            'filepath' : dugacp_api.paths["green_ninja_patrolling_spritesheet"],
             'name' : 'idle green',
             'soundpack' : 'ninja',
-            },
+            }})
 
         #blue ninja idle
-        {
+    npcs.update({"blueninja_idle": {
             'pos' : [0,0],
             'face' : 0,
             'spf': 0.1,
@@ -807,13 +810,13 @@ def load_npc_types():
             'atcktype': 'melee',
             'atckrate': 1.1,
             'id': 12,
-            'filepath' : ('graphics', 'npc', 'blue_ninja_spritesheet.png'),
+            'filepath' : dugacp_api.paths["blue_ninja_spritesheet"],
             'name' : 'idle blue',
             'soundpack' : 'ninja',
-            },
+            }})
 
         #Zombie yellow patrolling
-        {
+    npcs.update({"zombie_yellow_patrolling": {
             'pos' : [0,0],
             'face' : 0,
             'spf': 0.18,
@@ -825,13 +828,13 @@ def load_npc_types():
             'atcktype': 'melee',
             'atckrate': 1,
             'id': 13,
-            'filepath' : ('graphics', 'npc', 'sick_zombie_spritesheet.png'),
+            'filepath' : dugacp_api.paths["sick_zombie_patrolling_spritesheet"],
             'name' : 'patroul sick',
             'soundpack' : 'zombie hostile',
-            },
+            }})
 
         #zombie yellow idle
-        {
+    npcs.update({"zombie_yellow_idle": {
             'pos' : [0,0],
             'face' : 0,
             'spf': 0.18,
@@ -843,13 +846,13 @@ def load_npc_types():
             'atcktype': 'melee',
             'atckrate': 0.8,
             'id': 14,
-            'filepath' : ('graphics', 'npc', 'sick_zombie_spritesheet.png'),
+            'filepath' : dugacp_api.paths["sick_zombie_idle_spritesheet"],
             'name' : 'idle sick',
             'soundpack' : 'zombie hostile',
-            },
+            }})
 
         #zombie yellow idle shy
-        {
+    npcs.update({"zombie_yellow_idle_shy": {
             'pos' : [0,0],
             'face' : 0,
             'spf': 0.18,
@@ -861,13 +864,13 @@ def load_npc_types():
             'atcktype': 'melee',
             'atckrate': 1.2,
             'id': 15,
-            'filepath' : ('graphics', 'npc', 'sick_zombie_spritesheet.png'),
+            'filepath' : dugacp_api.paths["sick_zombie_idle_shy_spritesheet"],
             'name' : 'shy sick',
             'soundpack' : 'zombie hostile',
-            },
+            }})
 
         #blurry zombie hostile
-        {
+    npcs.update({"blurry_zombie_patrolling": {
             'pos' : [0,0],
             'face' : 0,
             'spf': 0.18,
@@ -879,13 +882,13 @@ def load_npc_types():
             'atcktype': 'melee',
             'atckrate': 0.4,
             'id': 16,
-            'filepath' : ('graphics', 'npc', 'blurry_zombie_spritesheet.png'),
+            'filepath' : dugacp_api.paths["blurry_zombie_patrolling_spritesheet"],
             'name' : 'hostile blurry',
             'soundpack' : 'blurry zombie',
-            },
+            }})
 
         #blurry zombie hostile hitscan??
-        {
+    npcs.update({"blurry_zombie_idle": {
             'pos' : [0,0],
             'face' : 0,
             'spf': 0.18,
@@ -897,11 +900,14 @@ def load_npc_types():
             'atcktype': 'hitscan',
             'atckrate': 0.4,
             'id': 17,
-            'filepath' : ('graphics', 'npc', 'blurry_zombie_spritesheet.png'),
+            'filepath' : dugacp_api.paths["blurry_zombie_idle_spritesheet"],
             'name' : 'hostile blurry',
             'soundpack' : 'blurry zombie',
-            },
-        ]
+            }})
+
+    npcs = dugacp_api._ENTITIES_get_npcs(npcs)
+
+    SETTINGS.npc_types += katz.get_values_list(npcs)
 
     load_npc_sounds()
 
@@ -980,7 +986,7 @@ def spawn_npcs():
             print("Error loading NPC! No soundpack with name ", stats['soundpack'])
         stats['pos'] = npc[0]
         stats['face'] = npc[1]
-        SETTINGS.npc_list.append(NPC.Npc(stats, sounds, path.join(*stats['filepath'])))
+        SETTINGS.npc_list.append(NPC.Npc(stats, sounds, path.join(stats['filepath'])))
 
 
 def load_item_types():

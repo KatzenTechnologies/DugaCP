@@ -15,9 +15,12 @@ class DugaAPI:
         self._visible_tiles = {}
         self._removed_guns = []
         self._new_guns = {}
+        self._removed_npcs = []
+        self._new_npcs = {}
         self._spawn_ratings = {}
         self._guns_dict = {}
         self._original_spawnrates = original_data.spawn_mapping
+        self.Gun = gameclasses.Gun
 
     def _ENTITIES_get_guns(self, guns_dictionary: dict):
 
@@ -29,6 +32,16 @@ class DugaAPI:
                 value.pop(i)
 
         self._guns_dict = value
+
+        return value
+
+    def _ENTITIES_get_npcs(self, npcs_dictionary: dict):
+        value = npcs_dictionary
+        value.update(self._new_npcs)
+
+        for i in self._removed_npcs:
+            if value.get(i) is not None:
+                value.pop(i)
 
         return value
 
@@ -62,6 +75,12 @@ class DugaAPI:
 
     def remove_gun(self, gun_id):
         self._removed_guns.append(gun_id)
+
+    def add_npc(self, npc_id, npc_stats):
+        self._new_guns.update({npc_id: npc_stats})
+
+    def remove_npc(self, npc_id):
+        self._removed_guns.append(npc_id)
 
     def get_custom_textures(self):
         return self.custom_textures

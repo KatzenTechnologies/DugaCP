@@ -12,6 +12,13 @@ def inverse(
             result |= {dictionary[i]:i}
     return result
 
+def get_values_list(
+        dictionary: dict
+        ):
+    result = []
+    for i in list(dictionary):
+        result.append(dictionary[i])
+    return result
 def clean(arraylist: list | tuple) -> list:
     '''
     cleans list by removing empty variables
